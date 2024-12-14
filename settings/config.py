@@ -4,6 +4,10 @@ from pydantic import  Field, AnyUrl, DirectoryPath
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
+    mailtrap_host: str
+    mailtrap_port: int
+    mailtrap_username: str
+    mailtrap_password: str
     max_login_attempts: int = Field(default=3, description="Background color of QR codes")
     # Server configuration
     server_base_url: AnyUrl = Field(default='http://localhost', description="Base URL of the server")

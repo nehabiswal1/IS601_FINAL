@@ -59,5 +59,8 @@ tomli==2.0.1
 typing_extensions==4.10.0
 uvicorn==0.29.0
 validators==0.24.0
-markdown2
-pyjwt
+
+# Additional dependencies
+boto3==1.28.0  # For interacting with Minio using AWS S3 SDK
+Pillow==10.1.0  # For image resizing and optimization
+minio==7.1.14  # Minio Python SDK for managing objects

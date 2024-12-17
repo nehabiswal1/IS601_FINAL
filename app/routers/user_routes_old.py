@@ -18,8 +18,6 @@ Key Highlights:
 - Utilizes OAuth2PasswordBearer for securing API endpoints, requiring valid access tokens for operations.
 """
 
-from fastapi import File, UploadFile, Depends, HTTPException
-from uuid import UUID
 from builtins import dict, int, len, str
 from datetime import timedelta
 from uuid import UUID
@@ -30,7 +28,7 @@ from app.dependencies import get_current_user, get_db, get_email_service, requir
 from app.schemas.pagination_schema import EnhancedPagination
 from app.schemas.token_schema import TokenResponse
 from app.schemas.user_schemas import LoginRequest, UserBase, UserCreate, UserListResponse, UserResponse, UserUpdate
-from app.services.user_service import UserService
+from IS601_FINAL.app.services.user_service_old import UserService
 from app.services.jwt_service import create_access_token
 from app.utils.link_generation import create_user_links, generate_pagination_links
 from app.dependencies import get_settings
@@ -38,6 +36,7 @@ from app.services.email_service import EmailService
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 settings = get_settings()
+
 @router.get("/users/{user_id}", response_model=UserResponse, name="get_user", tags=["User Management Requires (Admin or Manager Roles)"])
 async def get_user(user_id: UUID, request: Request, db: AsyncSession = Depends(get_db), token: str = Depends(oauth2_scheme), current_user: dict = Depends(require_role(["ADMIN", "MANAGER"]))):
     """
@@ -247,50 +246,3 @@ async def verify_email(user_id: UUID, token: str, db: AsyncSession = Depends(get
     if await UserService.verify_email_with_token(db, user_id, token):
         return {"message": "Email verified successfully"}
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired verification token")
-
-
-@router.post("/users/{user_id}/profile-picture", response_model=UserResponse, tags=["User Management Requires (Admin or Manager Roles)"])
-async def upload_user_profile_picture(
-    user_id: UUID,
-    file: UploadFile = File(...),
-    db: AsyncSession = Depends(get_db),
-    token: str = Depends(oauth2_scheme),
-    current_user: dict = Depends(require_role(["ADMIN", "MANAGER"])),
-    request: Request = Depends()
-):
-    """
-    Upload a profile picture for the specified user.
-
-    This endpoint accepts an image file and uses the UserService to upload it to Minio
-    and update the user's `profile_picture_url`.
-
-    - **user_id**: UUID of the user whose profile picture is being updated.
-    - **file**: The image file to upload.
-    """
-    # Optional: Validate file content type if needed
-    if file.content_type not in ["image/jpeg", "image/png"]:
-        raise HTTPException(status_code=400, detail="Invalid image format. Allowed: JPEG, PNG")
-
-    # Convert to a file-like object for upload
-    # UploadFile already gives a file-like interface
-    # and we can directly pass `file.file` to UserService
-    updated_user = await UserService.upload_profile_picture(db, user_id, file.file, file.filename)
-    if not updated_user:
-        raise HTTPException(status_code=404, detail="User not found or upload failed.")
-
-    return UserResponse.model_construct(
-        id=updated_user.id,
-        nickname=updated_user.nickname,
-        first_name=updated_user.first_name,
-        last_name=updated_user.last_name,
-        bio=updated_user.bio,
-        profile_picture_url=updated_user.profile_picture_url,
-        github_profile_url=updated_user.github_profile_url,
-        linkedin_profile_url=updated_user.linkedin_profile_url,
-        email=updated_user.email,
-        role=updated_user.role,
-        last_login_at=updated_user.last_login_at,
-        created_at=updated_user.created_at,
-        updated_at=updated_user.updated_at,
-        links=create_user_links(updated_user.id, request)
-    )

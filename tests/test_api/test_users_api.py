@@ -1,7 +1,7 @@
 from builtins import str
 import pytest
 from httpx import AsyncClient
-from app.main import app
+from IS601_FINAL.app.main import app
 from app.models.user_model import User, UserRole
 from app.utils.nickname_gen import generate_nickname
 from app.utils.security import hash_password

@@ -2,10 +2,10 @@
 import os
 from minio import Minio
 
-MINIO_ENDPOINT = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
+MINIO_ENDPOINT = os.getenv('MINIO_ENDPOINT', 'minio:9000')
 MINIO_ACCESS_KEY = os.getenv('MINIO_ACCESS_KEY', 'DD3MzAVNo1kEZCLAfvTV')
 MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY', 'tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw')
-MINIO_PUBLIC_ENDPOINT = os.getenv('MINIO_PUBLIC_ENDPOINT','localhost:9001')
+MINIO_PUBLIC_ENDPOINT = os.getenv('MINIO_PUBLIC_ENDPOINT','minio:9001')
 MINIO_BUCKET_NAME = os.getenv('MINIO_BUCKET_NAME','profile-picture')
 
 minio_client = Minio(

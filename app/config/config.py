@@ -45,11 +45,14 @@ class Settings(BaseSettings):
     smtp_port: int = Field(default=2525, description="SMTP port for sending emails")
     smtp_username: str = Field(default='your-mailtrap-username', description="Username for SMTP server")
     smtp_password: str = Field(default='your-mailtrap-password', description="Password for SMTP server")
-    # mailtrap_host: str
-    # mailtrap_port: int
-    # mailtrap_username: str
-    # mailtrap_password: str
-
+#     MAILTRAP_HOST=smtp.mailtrap.io
+# MAILTRAP_PORT=2525
+# MAILTRAP_USERNAME=b524feb8b757c6
+# MAILTRAP_PASSWORD=be2395e4f9e2a4
+    mailtrap_host : str = Field(default = 'smtp.mailtrap.io',description='host')
+    mailtrap_port : int  = Field(default = 2525 ,description='port')
+    mailtrap_username: str = Field(default = 'b524feb8b757c6',description='username')
+    mailtrap_password: str = Field(default = 'be2395e4f9e2a4',description='password')
     minio_endpoint: str = Field(default= 'localhost:9000/api/v1/service-account-credentials',description='minio endpoint url for uploading picture')
     minio_access_key:  str = Field(default= 'DD3MzAVNo1kEZCLAfvTV',description='minio access key')
     minio_secret_key: str = Field(default = 'tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw', description = 'minio secret key')

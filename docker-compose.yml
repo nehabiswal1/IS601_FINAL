@@ -51,9 +51,27 @@ services:
     networks:
       - app-network
 
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ENDPOINT: minio:9000 #/api/v1/service-account-credentials
+      MINIO_ACCESS_KEY: DD3MzAVNo1kEZCLAfvTV
+      MINIO_SECRET_KEY: tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw
+      MINIO_BUCKET_NAME: profile-picture
+      MINIO_PUBLIC_ENDPOINT: minio:9001
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - app-network
+
 volumes:
   postgres-data:
   pgadmin-data:
+  minio_data:
 
 networks:
-  app-network:
+  app-network: 

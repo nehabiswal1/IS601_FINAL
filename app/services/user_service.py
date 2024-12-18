@@ -17,7 +17,7 @@ from app.models.user_model import UserRole
 import logging
 import os
 
-from app.config.minio_client import minio_client, MINIO_BUCKET_NAME, MINIO_PUBLIC_ENDPOINT
+from app.config.minio_client import minio_client,MINIO_BUCKET_NAME, MINIO_PUBLIC_ENDPOINT
 
 settings = get_settings()
 logger = logging.getLogger(__name__)
@@ -193,7 +193,7 @@ class UserService:
             return True
         return False
 
-    # New Method: Upload Profile Picture
+    #New Method: Upload Profile Picture
     @classmethod
     async def upload_profile_picture(cls, session: AsyncSession, user_id: UUID, file, filename: str) -> Optional[User]:
         """

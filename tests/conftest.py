@@ -35,8 +35,8 @@ from app.models.user_model import User, UserRole
 from app.dependencies import get_db, get_settings
 from app.utils.security import hash_password
 from app.utils.template_manager import TemplateManager
-from services.email_service import EmailService
-from services.jwt_service import create_access_token
+from app.services.email_service import EmailService
+from app.services.jwt_service import create_access_token
 
 fake = Faker()
 

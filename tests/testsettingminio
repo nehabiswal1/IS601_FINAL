@@ -1,0 +1,40 @@
+#from minio import Minio
+
+# Initialize MinIO client
+# client = Minio(
+#     "localhost:9000",
+#     access_key="DD3MzAVNo1kEZCLAfvTV",
+#     secret_key="tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw",
+#     secure=False,
+# )
+
+# # Test bucket existence
+# bucket_name = "profile-picture"
+# if not client.bucket_exists(bucket_name):
+#     client.make_bucket(bucket_name)
+# print("Connection successful and bucket is ready!")
+
+
+import sys
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from settings.config import settings
+from minio import Minio
+
+
+minio_client = Minio(
+    endpoint=settings.minio_endpoint.replace("http://", "").replace("https://", ""),
+    access_key=settings.minio_access_key,
+    secret_key=settings.minio_secret_key,
+    secure=False,  # Set to True if using HTTPS
+)
+
+MINIO_BUCKET_NAME = settings.minio_bucket_name
+MINIO_PUBLIC_ENDPOINT = settings.minio_public_endpoint
+
+# Ensure bucket exists
+if not minio_client.bucket_exists(MINIO_BUCKET_NAME):
+    minio_client.make_bucket(MINIO_BUCKET_NAME)

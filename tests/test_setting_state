@@ -1,0 +1,15 @@
+from minio import Minio
+
+# Initialize MinIO client
+client = Minio(
+    "localhost:9000",
+    access_key="DD3MzAVNo1kEZCLAfvTV",
+    secret_key="tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw",
+    secure=False,
+)
+
+# Test bucket existence
+bucket_name = "profile-picture"
+if not client.bucket_exists(bucket_name):
+    client.make_bucket(bucket_name)
+print("Connection successful and bucket is ready!")

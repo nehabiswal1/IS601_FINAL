@@ -2,9 +2,11 @@
 import os
 from minio import Minio
 
-MINIO_ENDPOINT = os.getenv('MINIO_ENDPOINT', 'localhost:9001')
+MINIO_ENDPOINT = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
 MINIO_ACCESS_KEY = os.getenv('MINIO_ACCESS_KEY', 'DD3MzAVNo1kEZCLAfvTV')
 MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY', 'tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw')
+MINIO_PUBLIC_ENDPOINT = os.getenv('MINIO_PUBLIC_ENDPOINT','localhost:9001')
+MINIO_BUCKET_NAME = os.getenv('MINIO_BUCKET_NAME','profile-picture')
 
 minio_client = Minio(
     MINIO_ENDPOINT,
@@ -12,6 +14,12 @@ minio_client = Minio(
     secret_key=MINIO_SECRET_KEY,
     secure=False  # Set to True if using HTTPS
 )
+
+# MINIO_ENDPOINT= localhost:9000 #/api/v1/service-account-credentials
+# MINIO_ACCESS_KEY= DD3MzAVNo1kEZCLAfvTV
+# MINIO_SECRET_KEY= tVONit3oJKSFWc3zBaw8qryHKyK8mF39OwLVgMiw
+# MINIO_BUCKET_NAME=profile-picture
+# MINIO_PUBLIC_ENDPOINT=localhost:9001
 
 bucket_name = 'profile-picture'
 

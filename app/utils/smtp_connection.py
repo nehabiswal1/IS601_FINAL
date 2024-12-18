@@ -3,7 +3,7 @@ from builtins import Exception, int, str
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from settings.config import settings
+from app.config.config import settings
 import logging
 
 class SMTPClient:
